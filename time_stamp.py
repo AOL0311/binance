@@ -1,14 +1,18 @@
+import os
 from binance.client import Client
 import csv
 from datetime import datetime, timezone
 import numpy as np
 
-api_key = 'eW6Nv6jqbYtrjpFCU8jaP3fzRsymBtLPi8dBuxPHayBBBZVebrtDCnj8Dhw4kmH5'
-api_secert = '1sMqGafas3VCh7vUDk1B4IsKsMBBRMNLuxEYqg8yFWKxQHOzop0V2GXOFVmEu2RM'
-client = Client(api_key, api_secert)
+api_key = os.getenv('test_api_key')
+api_secret = os.getenv('test_api_secret')
+#api_key = 'eW6Nv6jqbYtrjpFCU8jaP3fzRsymBtLPi8dBuxPHayBBBZVebrtDCnj8Dhw4kmH5'
+#api_secret = '1sMqGafas3VCh7vUDk1B4IsKsMBBRMNLuxEYqg8yFWKxQHOzop0V2GXOFVmEu2RM'
+
+client = Client(api_key, api_secret)
 
 # valid interval: '1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'
-interval = ['1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M']
+interval = ['1m']
 
 def calculate_rsi(prices, period = 14):
     gains = []
@@ -39,7 +43,6 @@ def calculate_ema(prices, period, previous_ema = None):
         ema_values.append(current_ema)
 
     return ema_values[-1]
-
 
 def calculate_macd(prices, short_period = 12, long_period = 26, signal_period = 9):
     short_ema = [calculate_ema(prices[:i], short_period) for i in range(1, len(prices) + 1)]
@@ -97,11 +100,3 @@ for i in interval:
 
         for j in data:
             writer.writerow(j)
-
-    # with open(f'BTCUSDT/BTC_USDT_{i}.csv', 'w', encoding = 'utf-8', newline = '') as file:
-    #     df = pd.DataFrame(bars, columns = ['Date', 'Open', 'High', 'Low', 'Close'])
-    #     df['Close'] = pd.to_numeric(df['Close'])
-    #     df.set_index(['Date'], inplace = True)
-    #     df.index = pd.to_datetime(df.index, unit = 'ms')
-        
-    #     df.to_csv(file)
