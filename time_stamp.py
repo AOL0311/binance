@@ -1,14 +1,18 @@
+import os
 from binance.client import Client
 import csv
 from datetime import datetime, timezone
 import numpy as np
 
-api_key = 'eW6Nv6jqbYtrjpFCU8jaP3fzRsymBtLPi8dBuxPHayBBBZVebrtDCnj8Dhw4kmH5'
-api_secert = '1sMqGafas3VCh7vUDk1B4IsKsMBBRMNLuxEYqg8yFWKxQHOzop0V2GXOFVmEu2RM'
-client = Client(api_key, api_secert)
+api_key = os.getenv('test_api_key')
+api_secret = os.getenv('test_api_secret')
+#api_key = 'eW6Nv6jqbYtrjpFCU8jaP3fzRsymBtLPi8dBuxPHayBBBZVebrtDCnj8Dhw4kmH5'
+#api_secret = '1sMqGafas3VCh7vUDk1B4IsKsMBBRMNLuxEYqg8yFWKxQHOzop0V2GXOFVmEu2RM'
+
+client = Client(api_key, api_secret)
 
 # valid interval: '1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'
-interval = ['12h']
+interval = ['1m']
 
 # def calculate_rsi(prices, period = 14):
     # gains = []
@@ -40,10 +44,9 @@ interval = ['12h']
 
     # return ema_values[-1]
 
-
-# # def calculate_macd(prices, short_period = 12, long_period = 26, signal_period = 9):
-#     short_ema = [calculate_ema(prices[:i], short_period) for i in range(1, len(prices) + 1)]
-#     long_ema = [calculate_ema(prices[:i], long_period) for i in range(1, len(prices) + 1)]
+def calculate_macd(prices, short_period = 12, long_period = 26, signal_period = 9):
+    short_ema = [calculate_ema(prices[:i], short_period) for i in range(1, len(prices) + 1)]
+    long_ema = [calculate_ema(prices[:i], long_period) for i in range(1, len(prices) + 1)]
 
 #     macd_values = [short_ema[i] - long_ema[i] for i in range(len(short_ema))]
 
@@ -103,5 +106,5 @@ for i in interval:
             writer = csv.writer(file)
             # writer.writerow(['Date', 'Open', 'High', 'Low', 'Close', '5SMA', '10SMA', '20SMA', 'RSI', 'MACD', 'Signal'])
 
-            for j in data:
-                writer.writerow(j)
+        for j in data:
+            writer.writerow(j)
