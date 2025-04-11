@@ -12,7 +12,7 @@ api_secret = os.getenv('test_api_secret')
 client = Client(api_key, api_secret)
 
 # valid interval: '1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M'
-interval = ['1m']
+interval = ['1w']
 
 # def calculate_rsi(prices, period = 14):
     # gains = []
@@ -44,9 +44,9 @@ interval = ['1m']
 
     # return ema_values[-1]
 
-def calculate_macd(prices, short_period = 12, long_period = 26, signal_period = 9):
-    short_ema = [calculate_ema(prices[:i], short_period) for i in range(1, len(prices) + 1)]
-    long_ema = [calculate_ema(prices[:i], long_period) for i in range(1, len(prices) + 1)]
+# def calculate_macd(prices, short_period = 12, long_period = 26, signal_period = 9):
+#     short_ema = [calculate_ema(prices[:i], short_period) for i in range(1, len(prices) + 1)]
+#     long_ema = [calculate_ema(prices[:i], long_period) for i in range(1, len(prices) + 1)]
 
 #     macd_values = [short_ema[i] - long_ema[i] for i in range(len(short_ema))]
 
@@ -93,6 +93,8 @@ for i in interval:
         # else:
         #     j.append(None)
         #     j.append(None)
+        
+    # print(data)
             
     if i == '1M':
         with open(f'BTCUSDT/BTC_USDT_month.csv', 'a+', encoding = 'utf-8', newline = '') as file:

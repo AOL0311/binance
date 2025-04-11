@@ -1,7 +1,7 @@
-from binance.client import Client
-import csv
-from datetime import datetime, timezone
 import numpy as np
+import csv
+
+File = 'BTC_USDT/BTCUSDT_1Week.csv'
 
 def calculate_rsi(prices, period = 14):
     gains = []
@@ -44,7 +44,46 @@ def calculate_macd(prices, short_period = 12, long_period = 26, signal_period = 
     
     return f'{macd_values[-1]:.8f}', f'{signal_values[-1]:.8f}'
 
-with open('BTCUSDT/BTC_USDT_12h.csv', 'r', encoding = 'utf-8') as file:
+datas = []
+close_price = []
+with open(File, 'r', encoding = 'utf-8') as file:
     data = file.readlines()
     
-    print(data)
+    for line in data:
+        line = line.replace('\n', '')
+        line = line.split(',')
+    
+        datas.append(line)
+        close_price.append(float(line[4]))
+        
+        if len(close_price) >= 5:
+            line.append(f'{sum(close_price[-5:]) / 5:.8f}')
+        else:
+            line.append(None)
+            
+        if len(close_price) >= 10:
+            line.append(f'{sum(close_price[-10:]) / 10:.8f}')
+        else:
+            line.append(None)
+            
+        if len(close_price) >= 20:
+            line.append(f'{sum(close_price[-20:]) / 20:.8f}')
+        else:
+            line.append(None)
+            
+        if len(close_price) >= 14:
+            line.append(calculate_rsi(close_price))
+        else:
+            line.append(None)
+            
+        if len(close_price) >= 26:
+            macd, signal = calculate_macd(close_price)
+            line.append(macd)
+            line.append(signal)
+        else:
+            line.append(None)
+            line.append(None)
+
+with open(File, 'w', encoding = 'utf-8', newline = '') as file:
+    writer = csv.writer(file)
+    writer.writerows(datas)
