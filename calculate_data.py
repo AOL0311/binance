@@ -16,7 +16,11 @@ def calculate_rsi(prices):
     avg_gain = np.mean(gains[-14:])
     avg_loss = np.mean(losses[-14:])
 
-    return f'{100 - (100 / (1 + avg_gain / avg_loss if avg_loss != 0 else 0)):.8f}'
+    if avg_loss == 0:
+        return 100.00000000
+    rs = avg_gain / avg_loss
+
+    return f'{100 - (100 / (1 + avg_gain / avg_loss if avg_loss != 0.00000000 else 0)):.8f}'
 
 def calculate_ema(prices, period, previous_ema = None):
     alpha = 2 / (period + 1)
@@ -40,7 +44,7 @@ def calculate_macd(prices):
 
     return f'{macd_values[-1]:.8f}'
 
-File = 'BTC_USDT/BTCUSDT_1Day.csv'
+File = 'BTC_USDT/BTCUSDT_1Minute.csv'
 datas = []
 with open(File, 'r', encoding = 'utf-8') as file:
     lines = file.readlines()
@@ -51,35 +55,39 @@ with open(File, 'r', encoding = 'utf-8') as file:
         datas.append(data)
 
 close_price = []
+i = 0
 for line in datas:
     close_price.append(float(line[4]))
 
-    if len(close_price) >= 5:
-        line.append(f'{sum(close_price[-5:]) / 5:.8f}')
-    else:
-        line.append(None)
+    # if len(close_price) >= 5:
+    #     line.append(f'{sum(close_price[-5:]) / 5:.8f}')
+    # else:
+    #     line.append(None)
 
-    if len(close_price) >= 10:
-        line.append(f'{sum(close_price[-10:]) / 10:.8f}')
-    else:
-        line.append(None)
+    # if len(close_price) >= 10:
+    #     line.append(f'{sum(close_price[-10:]) / 10:.8f}')
+    # else:
+    #     line.append(None)
 
-    if len(close_price) >= 20:
-        line.append(f'{sum(close_price[-20:]) / 20:.8f}')
-    else:
-        line.append(None)
+    # if len(close_price) >= 20:
+    #     line.append(f'{sum(close_price[-20:]) / 20:.8f}')
+    # else:
+    #     line.append(None)
 
     if len(close_price) >= 14:
         line.append(calculate_rsi(close_price))
+        print(i)
     else:
         line.append(None)
 
-    if len(close_price) >= 26:
-        line.append(calculate_macd(close_price))
-        # line.append(signal)
-    else:
-        line.append(None)
-        # line.append(None)
+    # if len(close_price) >= 26:
+    #     line.append(calculate_macd(close_price))
+    #     # line.append(signal)
+        # print(i)
+    # else:
+    #     line.append(None)
+    #     # line.append(None)
+    i += 1
 
 with open(File, 'w', encoding = 'utf-8') as file:
     writer = csv.writer(file)
