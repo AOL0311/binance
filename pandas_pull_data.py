@@ -12,7 +12,7 @@ client = Client(api_key, api_secret)
 interval = ['1m']
 
 for i in interval:
-    data = client.get_historical_klines('BTCUSDT', i, start_str = '1, Mar, 2020', end_str = '15, Apr, 2025')
+    data = client.get_historical_klines('BTCUSDT', i, start_str = '1, Mar, 2020', end_str = '16, Apr, 2025')
 
     for line in data:
         del line[5:]
@@ -20,9 +20,9 @@ for i in interval:
 
     df = pd.DataFrame(data, columns = ['Date', 'Open', 'High', 'Low', 'Close'], index = None)
 
-    if os.path.exists(f'BTC_USDT/BTCUSDT{i}.csv'):
-        df.to_csv(f'BTC_USDT/BTCUSDT{i}.csv', mode = 'a', header = False, index = False)
+    if os.path.exists(f'BTC_USDT/BTCUSDT_{i}.csv'):
+        df.to_csv(f'BTC_USDT/BTCUSDT_{i}.csv', mode = 'a', header = False, index = False)
     else:
-        df.to_csv(f'BTC_USDT/BTCUSDT{i}.csv', mode = 'w', header = True, index = False)
+        df.to_csv(f'BTC_USDT/BTCUSDT_{i}.csv', mode = 'w', header = True, index = False)
 
     print(f'Finish fetching time:{i} data.')
