@@ -9,10 +9,10 @@ api_secret = '1sMqGafas3VCh7vUDk1B4IsKsMBBRMNLuxEYqg8yFWKxQHOzop0V2GXOFVmEu2RM'
 client = Client(api_key, api_secret)
 
 # valid interval: '1M', '1w', '3d', '1d', '12h', '8h', '6h', '4h', '2h', '1h', '30m', '15m', '5m', '3m', '1m'
-interval = ['1m']
+interval = ['1M', '1w', '3d', '1d', '12h', '8h', '6h', '4h', '2h', '1h']
 
 for i in interval:
-    data = client.get_historical_klines('BTCUSDT', i, start_str = '1, Mar, 2020', end_str = '16, Apr, 2025')
+    data = client.get_historical_klines('BTCUSDT', i, start_str = '1, Mar, 2020', end_str = '18, Apr, 2025')
 
     for line in data:
         del line[5:]
