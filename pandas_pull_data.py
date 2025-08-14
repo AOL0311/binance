@@ -3,8 +3,9 @@ from datetime import datetime, timezone
 import pandas as pd
 import os
 
-api_key = 'eW6Nv6jqbYtrjpFCU8jaP3fzRsymBtLPi8dBuxPHayBBBZVebrtDCnj8Dhw4kmH5'
-api_secret = '1sMqGafas3VCh7vUDk1B4IsKsMBBRMNLuxEYqg8yFWKxQHOzop0V2GXOFVmEu2RM'
+# key 暫時清除，後續寫入 env.py 中
+api_key = ''
+api_secret = ''
 
 client = Client(api_key, api_secret)
 
