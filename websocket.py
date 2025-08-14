@@ -9,8 +9,9 @@ from telegram import Bot
 model = DQN('MlpPolicy', CryptoTradingEnv(), verbose = 0)
 model.learn(total_timesteps = 5000)
 
-bot = Bot(token = '7683441276:AAFJsaLJpNzDf23Nh4pBnjrPIAvKI0-gu5w')
-chat_id = '6515758042'
+# token, chat_id 已暫時清除
+bot = Bot(token = '')
+chat_id = ''
 
 def send_telegram(message):
     bot.send_message(chat_id, text = message)
